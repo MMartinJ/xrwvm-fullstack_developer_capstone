@@ -5,6 +5,8 @@ import "../assets/style.css";
 import Header from '../Header/Header';
 
 
+
+
 const PostReview = () => {
   const [dealer, setDealer] = useState({});
   const [review, setReview] = useState("");
@@ -63,17 +65,16 @@ const PostReview = () => {
 
   }
   const get_dealer = async ()=>{
-    const res = await fetch(dealer_url, {
-      method: "GET"
-    });
-    const retobj = await res.json();
-    
-    if(retobj.status === 200) {
-      let dealerobjs = Array.from(retobj.dealer)
-      if(dealerobjs.length > 0)
-        setDealer(dealerobjs[0])
-    }
+  const res = await fetch(dealer_url, {
+    method: "GET"
+  });
+  const retobj = await res.json();
+  
+  if(retobj.status === 200) {
+    // ✔️ Guarda directamente el objeto que envía Django
+    setDealer(retobj.dealer);
   }
+}
 
   const get_cars = async ()=>{
     const res = await fetch(carmodels_url, {

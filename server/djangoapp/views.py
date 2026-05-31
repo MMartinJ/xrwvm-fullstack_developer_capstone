@@ -15,7 +15,7 @@ import json
 from django.views.decorators.csrf import csrf_exempt
 from .populate import initiate
 from .models import CarMake, CarModel
-
+from .restapis import get_request, analyze_review_sentiments, post_review
 
 
 
@@ -51,12 +51,17 @@ def get_cars(request):
     count = CarMake.objects.filter().count()
     print(count)
     if(count == 0):
-        initiate()
+        initiate() # Ejecuta la función que puebla la base de datos si está vacía
+    
     car_models = CarModel.objects.select_related('car_make')
     cars = []
     for car_model in car_models:
-        cars.append({"CarModel": car_model.name, "CarMake": car_model.car_make.name})
-    return JsonResponse({"CarModels":cars})
+        cars.append({
+            "CarModel": car_model.name, 
+            "CarMake": car_model.car_make.name, 
+            "CarYear": car_model.year.year if hasattr(car_model.year, 'year') else car_model.year
+        })
+    return JsonResponse({"CarModels": cars})
 
 
 # Create a `registration` view to handle sign up request

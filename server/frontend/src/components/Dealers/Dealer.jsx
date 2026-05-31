@@ -31,8 +31,9 @@ const Dealer = () => {
     const retobj = await res.json();
     
     if(retobj.status === 200) {
-      let dealerobjs = Array.from(retobj.dealer)
-      setDealer(dealerobjs[0])
+      //let dealerobjs = Array.from(retobj.dealer)
+      //setDealer(dealerobjs[0])
+      setDealer(retobj.dealer);
     }
   }
 
@@ -43,9 +44,11 @@ const Dealer = () => {
     const retobj = await res.json();
     
     if(retobj.status === 200) {
-      if(retobj.reviews.length > 0){
-        setReviews(retobj.reviews)
+      
+      if(retobj.reviews && retobj.reviews.length > 0){
+        setReviews(retobj.reviews);
       } else {
+        setReviews([]); 
         setUnreviewed(true);
       }
     }
